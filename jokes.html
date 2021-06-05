@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Random Joke</title>
+    <style>
+        body{
+    text-align:center;
+    margin-top: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 2;
+    font-size: 2em;
+    width: 800px;
+    margin: 50px auto;
+    background-color: aqua;
+
+}
+
+img{
+    width: 10%;
+    height: auto;
+}
+button{
+    font-size: .8em;
+    border-radius: 5px;
+    background-color: rgb(224, 187, 116);
+    padding: 5px;
+    cursor:pointer;
+}
+    </style>
+</head>
+<body>
+    <img src='images/2.jfif'>
+    <div id="display-joke">Display the button below to retrieve a random Chuck Norris Joke!</div>
+    <button id="get-joke">Get Joke!</button>
+    <script>
+      const image = document.querySelector('img');
+const jokeDIV = document.querySelector('#display-joke');
+const button = document.querySelector('#get-joke');
+
+button.addEventListener('click', function(){
+    getRandomJoke();
+})
+
+function getRandomJoke(){
+    const ajax = new XMLHttpRequest;
+    const url = 'https://api.chucknorris.io/jokes/random'
+
+    ajax.open('GET', url, true);
+
+    ajax.onreadystatechange = function(){
+        if(this.status === 200 && this.readyState === 4){
+            console.log(this.responseText);
+            let data = JSON.parse(this.responseText);
+            jokeDIV.innerHTML = `${data.value}`
+        } else {
+            this.onerror = onerror();
+        }
+    }
+    ajax.send();
+}
+
+function onerror(){
+     jokeDIV.textContent = 'There was an error!';  
+}
+    </script>
+</body>
+</html>
